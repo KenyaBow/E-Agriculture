@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'farmpulse-v3';
+const CACHE_NAME = 'farmpulse-v4';
 const ASSETS = [
   '/', '/weather', '/plant', '/soil', '/chat', '/report', '/irrigation', '/diseases', '/recommendations', '/market',
   '/static/style.css', '/static/app.js', '/manifest.json', '/static/img/logo.png', '/static/img/logo-192.png', '/static/img/logo-512.png', '/service-worker.js'

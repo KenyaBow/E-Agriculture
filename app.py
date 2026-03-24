@@ -6,16 +6,13 @@ import json
 import math
 import os
 import random
-import statistics
 import uuid
-from collections import Counter
 from datetime import date, datetime, timedelta
+from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
 
 import requests
-from flask import (Flask, Response, jsonify, make_response, render_template,
-                   request, send_file)
-from PIL import Image, ImageFilter, ImageOps
+from flask import (Flask, Response, jsonify, render_template, request)
 
 APP_NAME = "FarmPulse"
 DEFAULT_TIMEOUT = 14
@@ -29,6 +26,8 @@ SESSION = requests.Session()
 SESSION.headers.update({"User-Agent": "FarmPulse/1.0 (+Flask)"})
 
 REPORTS: Dict[str, List[Dict[str, Any]]] = {}
+WEATHER_CACHE: Dict[Tuple[str, str], Tuple[float, Dict[str, Any]]] = {}
+CACHE_TTL_SECONDS = 15 * 60
 
 DAYS_WINDOW = 16
 COMMON_DAILY_FIELDS = [
@@ -240,6 +239,7 @@ def date_mode(target: date) -> str:
     return "planning"
 
 
+@lru_cache(maxsize=256)
 def location_label(place: str) -> Tuple[float, float, str]:
     place = (place or "").strip()
     if not place:
@@ -384,6 +384,27 @@ def parse_api_series(payload: Dict[str, Any]) -> List[Dict[str, Any]]:
     return [weather_detail(row) for row in normalize_daily(daily)]
 
 
+
+
+def _weather_cache_key(place: str, target: date) -> Tuple[str, str]:
+    return (place.strip().lower(), target.isoformat())
+
+
+def _weather_cache_get(place: str, target: date) -> Optional[Dict[str, Any]]:
+    key = _weather_cache_key(place, target)
+    entry = WEATHER_CACHE.get(key)
+    if not entry:
+        return None
+    ts, payload = entry
+    if (datetime.utcnow().timestamp() - ts) > CACHE_TTL_SECONDS:
+        WEATHER_CACHE.pop(key, None)
+        return None
+    return payload
+
+
+def _weather_cache_set(place: str, target: date, payload: Dict[str, Any]) -> None:
+    WEATHER_CACHE[_weather_cache_key(place, target)] = (datetime.utcnow().timestamp(), payload)
+
 def synthetic_series(center: date, place: str, mode: str) -> List[Dict[str, Any]]:
     seed = abs(hash((place.lower(), center.isoformat(), mode))) % (2 ** 32)
     rng = random.Random(seed)
@@ -420,6 +441,10 @@ def synthetic_series(center: date, place: str, mode: str) -> List[Dict[str, Any]
 
 
 def fetch_weather_window(place: str, target: date) -> Dict[str, Any]:
+    cached = _weather_cache_get(place, target)
+    if cached is not None:
+        return cached
+
     lat, lon, label = location_label(place)
     mode = date_mode(target)
     series = []
@@ -492,7 +517,7 @@ def fetch_weather_window(place: str, target: date) -> Dict[str, Any]:
         note = "Could not reach the weather provider, so a local planning fallback was used."
 
     selected = next((row for row in series if row["date"] == target.isoformat()), series[len(series) // 2] if series else None)
-    return {
+    payload = {
         "place": label,
         "lat": round(lat, 4),
         "lon": round(lon, 4),
@@ -503,9 +528,12 @@ def fetch_weather_window(place: str, target: date) -> Dict[str, Any]:
         "series": series,
         "selected": selected,
     }
+    _weather_cache_set(place, target, payload)
+    return payload
 
 
-def image_stats(image: Image.Image) -> Dict[str, Any]:
+def image_stats(image) -> Dict[str, Any]:
+    from PIL import Image, ImageFilter, ImageOps, ImageStat
     image = ImageOps.exif_transpose(image).convert("RGB")
     image = ImageOps.autocontrast(image)
     small = image.resize((240, 240))
@@ -1076,4 +1104,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False, use_reloader=False)
