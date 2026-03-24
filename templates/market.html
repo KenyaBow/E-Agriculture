@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Market planner" %}
+{% set page = "market" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Harvest economics</p>
+    <h1>Market planner</h1>
+    <p class="lead">Choose the crop, planting date, and your target selling date. The page estimates harvest timing and market risk.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Crop
+      <input id="market-crop" type="text" value="tomato">
+    </label>
+    <label>Planting date
+      <input id="market-date" type="date">
+    </label>
+    <label>Location
+      <input id="market-location" type="text" value="Nairobi, Kenya">
+    </label>
+    <label>Target selling date
+      <input id="market-target" type="date">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="market-run" type="button">Plan market timing</button>
+  </div>
+</section>
+<section class="card result-card" id="market-result"><p class="placeholder">Pick dates to begin.</p></section>
+
+{% endblock %}

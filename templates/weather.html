@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Weather" %}
+{% set page = "weather" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Weather intelligence</p>
+    <h1>Weather explorer</h1>
+    <p class="lead">Choose any place on earth and any date. The page shows the 16-day window when available, historical days for the past, and a planning outlook for distant future dates.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Place
+      <input id="weather-place" type="text" value="Nairobi, Kenya" placeholder="Type a city, town, or region">
+    </label>
+    <label>Date
+      <input id="weather-date" type="date">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="weather-search" type="button">Show weather</button>
+    <button class="ghost-btn" id="weather-today" type="button">Today</button>
+  </div>
+</section>
+<section class="card result-card">
+  <div id="weather-meta" class="meta-line"></div>
+  <div id="weather-summary" class="summary-box"></div>
+  <div id="weather-days" class="day-strip"></div>
+  <div id="weather-detail" class="detail-box"></div>
+</section>
+
+{% endblock %}

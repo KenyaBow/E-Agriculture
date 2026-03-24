@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Soil analysis" %}
+{% set page = "soil" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Root zone check</p>
+    <h1>Soil analysis</h1>
+    <p class="lead">Upload a soil photo, optionally add a leaf photo, and compare both together for a stronger field-level reading.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Crop
+      <input id="soil-crop" type="text" placeholder="Example: cabbage">
+    </label>
+    <label>Location
+      <input id="soil-location" type="text" value="Nairobi, Kenya">
+    </label>
+    <label>Soil photo
+      <input id="soil-image" type="file" accept="image/*" capture="environment">
+    </label>
+    <label>Leaf photo (optional)
+      <input id="soil-leaf-image" type="file" accept="image/*" capture="environment">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="soil-analyze" type="button">Analyze soil</button>
+  </div>
+</section>
+<section class="card result-card" id="soil-result"><p class="placeholder">Upload soil to begin.</p></section>
+
+{% endblock %}

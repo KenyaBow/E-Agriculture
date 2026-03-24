@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Chat" %}
+{% set page = "chat" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Assistant</p>
+    <h1>AI chatbot</h1>
+    <p class="lead">Ask farm questions in natural language. The bot always responds, and it can guide you toward the weather, plant, soil, irrigation, disease, and market pages.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card chat-card">
+  <div id="chatbox" class="chatbox"></div>
+  <div class="chat-input-row">
+    <input id="chat-input" type="text" placeholder="Ask something like: should I irrigate tomatoes today?">
+    <button class="primary-btn" id="chat-send" type="button">Send</button>
+  </div>
+</section>
+
+{% endblock %}

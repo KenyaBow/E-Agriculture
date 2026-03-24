@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Diseases" %}
+{% set page = "diseases" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Local crop risk</p>
+    <h1>Crop diseases in your area</h1>
+    <p class="lead">Pick a region or nearby area and a crop to see the most likely diseases plus prevention guidance.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Area or region
+      <input id="disease-area" type="text" placeholder="Example: coastal, dry, highland">
+    </label>
+    <label>Crop
+      <input id="disease-crop" type="text" placeholder="Example: tomato">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="disease-run" type="button">Check disease risk</button>
+  </div>
+</section>
+<section class="card result-card" id="disease-result"><p class="placeholder">Choose an area to begin.</p></section>
+
+{% endblock %}

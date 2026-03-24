@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Home" %}
+{% set page = "home" %}
+{% block content %}
+<section class="hero card">
+  <div class="hero-copy">
+    <p class="eyebrow">Historic farm command center</p>
+    <h1>One mobile app for weather, crop scans, soil checks, and farm planning.</h1>
+    <p class="lead">Tap a tile below to open each working page. Every tool sends real feedback, stores a report, and stays usable on mobile first.</p>
+  </div>
+  <div class="hero-panel">
+    <div class="hero-stat">
+      <strong>16-day weather</strong>
+      <span>forecast, history, and planning outlook</span>
+    </div>
+    <div class="hero-stat">
+      <strong>Offline shell</strong>
+      <span>cached pages and report history</span>
+    </div>
+  </div>
+</section>
+
+<section class="grid tiles">
+  <a class="tile" href="/weather">{{ icon('weather')|safe }}<span>Weather</span><small>16-day view</small></a>
+  <a class="tile" href="/plant">{{ icon('plant')|safe }}<span>Plant analysis</span><small>Leaf upload</small></a>
+  <a class="tile" href="/soil">{{ icon('soil')|safe }}<span>Soil analysis</span><small>Compare with leaf</small></a>
+  <a class="tile" href="/chat">{{ icon('chat')|safe }}<span>AI chatbot</span><small>Farm helper</small></a>
+  <a class="tile" href="/report">{{ icon('report')|safe }}<span>Reports</span><small>View & download</small></a>
+  <a class="tile" href="/irrigation">{{ icon('irrigation')|safe }}<span>Irrigation</span><small>Water advisor</small></a>
+  <a class="tile" href="/diseases">{{ icon('disease')|safe }}<span>Diseases</span><small>By area</small></a>
+  <a class="tile" href="/recommendations">{{ icon('sprout')|safe }}<span>Crop recommendations</span><small>Goal based</small></a>
+  <a class="tile" href="/market">{{ icon('market')|safe }}<span>Market planner</span><small>Harvest timing</small></a>
+</section>
+
+<section class="card info-block">
+  <h2>How it works</h2>
+  <p>Open any tile, upload a leaf or soil photo, choose a place and date for weather, or ask the chatbot a farm question. Every successful action creates a record in your report view.</p>
+</section>
+{% endblock %}

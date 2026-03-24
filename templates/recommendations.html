@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Recommendations" %}
+{% set page = "recommendations" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Crop fit</p>
+    <h1>Crop recommendations</h1>
+    <p class="lead">Tell the system your goal, soil, water, and market situation. It returns crop choices that fit your conditions.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Your goal
+      <input id="rec-goal" type="text" placeholder="Example: fast harvest or high value">
+    </label>
+    <label>Growing condition
+      <input id="rec-condition" type="text" placeholder="Example: warm, dry, humid, small space">
+    </label>
+    <label>Water access
+      <input id="rec-water" type="text" placeholder="Example: limited, reliable, irrigated">
+    </label>
+    <label>Market access
+      <input id="rec-market" type="text" placeholder="Example: local market, contract buyer">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="rec-run" type="button">Recommend crops</button>
+  </div>
+</section>
+<section class="card result-card" id="rec-result"><p class="placeholder">Enter your goal to begin.</p></section>
+
+{% endblock %}

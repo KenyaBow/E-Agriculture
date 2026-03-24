@@ -1,0 +1,87 @@
+
+:root{
+  --bg:#0d241d;
+  --bg-2:#123126;
+  --card:#173a2d;
+  --card-2:#1d4636;
+  --accent:#b4202f;
+  --accent-2:#da3140;
+  --text:#f7f9f7;
+  --muted:#d4dfd9;
+  --line:rgba(255,255,255,.1);
+  --shadow:0 14px 30px rgba(0,0,0,.25);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%;background:linear-gradient(180deg,var(--bg),#091712);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:18px;line-height:1.5}
+body{padding-bottom:24px}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+.page-wrap{width:min(100%,1080px);margin:0 auto;padding:14px}
+.topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:rgba(8,24,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;letter-spacing:.2px}
+.brand-badge{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,var(--accent),#6a1020);box-shadow:var(--shadow)}
+.brand-badge svg,.tile svg,.badge svg{width:24px;height:24px;fill:#fff}
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-size:.86rem}
+.hero,.card{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero{display:grid;gap:18px;padding:18px;margin-bottom:14px}
+.hero h1,.page-head h1{margin:4px 0 10px;font-size:clamp(1.7rem,4vw,3.2rem);line-height:1.08;color:#fff}
+.eyebrow{margin:0 0 6px;font-size:.84rem;letter-spacing:.12em;text-transform:uppercase;color:#ffe5e8;font-weight:800}
+.lead{margin:0;color:var(--muted);font-size:1.05rem}
+.hero-panel{display:grid;gap:12px}
+.hero-stat{padding:14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.hero-stat strong{display:block;font-size:1.1rem;margin-bottom:4px;color:#fff}
+.hero-stat span{color:var(--muted)}
+.grid{display:grid;gap:12px}
+.tiles{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:14px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:122px;padding:16px;border-radius:22px;background:linear-gradient(180deg,#a91f31,#771724);border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow);font-weight:800}
+.tile span{font-size:1.03rem;color:#fff}
+.tile small{color:#ffe7ea;font-weight:600}
+.tile svg{width:28px;height:28px;fill:#fff}
+.info-block{padding:18px;margin-top:2px}
+.info-block h2{margin:0 0 10px;font-size:1.35rem}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px;margin-bottom:14px}
+.backlink,.ghost-btn,.primary-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 18px;border-radius:16px;border:1px solid var(--line);cursor:pointer;transition:.18s transform ease,.18s opacity ease;font-weight:800}
+.backlink,.ghost-btn{background:rgba(255,255,255,.08);color:#fff}
+.primary-btn{background:linear-gradient(180deg,var(--accent),#871724);color:#fff;border-color:#d44}
+.primary-btn:hover,.ghost-btn:hover,.backlink:hover,.tile:hover{transform:translateY(-1px)}
+.form-card,.result-card,.chat-card{padding:16px;margin-bottom:14px}
+.form-grid{display:grid;gap:12px}
+.form-grid.two{grid-template-columns:1fr}
+label{display:grid;gap:8px;font-weight:700;color:#fff}
+input,select,textarea{width:100%;padding:14px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:#0d221a;color:#fff;outline:none}
+input::placeholder,textarea::placeholder{color:#a9b8b0}
+input:focus,select:focus,textarea:focus{border-color:#ff929d;box-shadow:0 0 0 3px rgba(180,32,47,.18)}
+.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.button-row.wrap{align-items:center}
+.meta-line,.placeholder{color:var(--muted)}
+.summary-box,.detail-box{margin-top:14px;padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.day-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.day-card{padding:14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer}
+.day-card strong{display:block;font-size:1rem}
+.day-card small{display:block;color:var(--muted);margin-top:4px}
+.day-card.active{border-color:#ff9ca7;box-shadow:0 0 0 2px rgba(255,115,130,.14) inset}
+.detail-box h3,.detail-box h4,.result-card h3,.result-card h4{margin:0 0 8px;color:#fff}
+.kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.kpi > div{padding:12px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.kpi strong{display:block;font-size:.85rem;color:#ffe7ea;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.kpi div div{font-size:1rem}
+.sep{border:none;border-top:1px solid var(--line);margin:14px 0}
+.chatbox{min-height:330px;max-height:58vh;overflow:auto;display:flex;flex-direction:column;gap:12px;padding:8px 0}
+.bubble{max-width:85%;padding:14px 16px;border-radius:18px;border:1px solid var(--line)}
+.bubble.bot{align-self:flex-start;background:rgba(255,255,255,.07)}
+.bubble.user{align-self:flex-end;background:rgba(180,32,47,.25)}
+.chat-input-row{display:flex;gap:10px;margin-top:12px}
+.chat-input-row input{flex:1}
+.toast-root{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:grid;gap:10px;z-index:1000;width:min(94vw,420px)}
+.toast{padding:12px 14px;border-radius:16px;background:#10281f;border:1px solid var(--line);box-shadow:var(--shadow)}
+.toast.good{border-color:#4bb871}
+.toast.bad{border-color:#ff8080}
+.toast.info{border-color:#8eb6ff}
+@media (min-width:720px){
+  .hero{grid-template-columns:1.5fr .9fr;align-items:stretch}
+  .form-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .day-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+}

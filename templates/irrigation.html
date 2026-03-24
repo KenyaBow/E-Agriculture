@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Irrigation" %}
+{% set page = "irrigation" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Water planner</p>
+    <h1>Irrigation advisor</h1>
+    <p class="lead">Get a crop-aware watering interval and practical watering tips based on weather context.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Crop
+      <input id="irr-crop" type="text" placeholder="Example: maize">
+    </label>
+    <label>Planting date
+      <input id="irr-date" type="date">
+    </label>
+    <label>Location
+      <input id="irr-location" type="text" value="Nairobi, Kenya">
+    </label>
+    <label>Soil type
+      <input id="irr-soil" type="text" placeholder="Example: sandy loam">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="irr-run" type="button">Build irrigation plan</button>
+  </div>
+</section>
+<section class="card result-card" id="irr-result"><p class="placeholder">Choose a crop to begin.</p></section>
+
+{% endblock %}

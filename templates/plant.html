@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Plant analysis" %}
+{% set page = "plant" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Leaf scan</p>
+    <h1>Plant analysis</h1>
+    <p class="lead">Upload a leaf photo and optionally name the crop. The analyzer returns a health score, likely issues, and clear next steps.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="form-grid two">
+    <label>Crop or leaf name
+      <input id="plant-name" type="text" placeholder="Example: tomato or maize">
+    </label>
+    <label>Leaf photo
+      <input id="plant-image" type="file" accept="image/*" capture="environment">
+    </label>
+  </div>
+  <div class="button-row">
+    <button class="primary-btn" id="plant-analyze" type="button">Analyze leaf</button>
+  </div>
+</section>
+<section class="card result-card" id="plant-result"><p class="placeholder">Upload a photo to begin.</p></section>
+
+{% endblock %}

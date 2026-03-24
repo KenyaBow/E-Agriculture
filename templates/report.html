@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set title = "FarmPulse | Reports" %}
+{% set page = "report" %}
+{% block content %}
+<section class="card page-head">
+  <div>
+    <p class="eyebrow">Saved records</p>
+    <h1>Report view</h1>
+    <p class="lead">See your recent analyses and download them as CSV or JSON.</p>
+  </div>
+  <a class="backlink" href="/">Back home</a>
+</section>
+
+<section class="card form-card">
+  <div class="button-row wrap">
+    <button class="primary-btn" id="refresh-report" type="button">Refresh report</button>
+    <a class="ghost-btn" href="/api/report/download?format=csv">Download CSV</a>
+    <a class="ghost-btn" href="/api/report/download?format=json">Download JSON</a>
+  </div>
+</section>
+<section class="card result-card">
+  <div id="report-list"><p class="placeholder">Loading report...</p></div>
+</section>
+
+{% endblock %}

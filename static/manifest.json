@@ -1,0 +1,23 @@
+{
+  "name": "FarmPulse",
+  "short_name": "FarmPulse",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d241d",
+  "theme_color": "#8f1e2d",
+  "description": "Mobile-first farm intelligence PWA",
+  "icons": [
+    {
+      "src": "/static/img/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/img/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
