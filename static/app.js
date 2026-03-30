@@ -34,7 +34,12 @@
   }
 
   function isStandalone() {
-    return window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator.standalone === true;
+    return Boolean(
+      window.matchMedia?.('(display-mode: standalone)')?.matches ||
+      window.matchMedia?.('(display-mode: fullscreen)')?.matches ||
+      window.matchMedia?.('(display-mode: minimal-ui)')?.matches ||
+      window.navigator.standalone === true
+    );
   }
 
   function downloadBlob(url, filename) {
@@ -189,6 +194,25 @@
     search.addEventListener('click', run);
     todayBtn?.addEventListener('click', () => { date.value = todayISO(); run(); });
     run();
+  }
+
+  function initFilePickers() {
+    document.querySelectorAll('[data-file-target]').forEach((btn) => {
+      const targetId = btn.getAttribute('data-file-target');
+      const input = targetId ? $(targetId) : null;
+      if (!input) return;
+      const nameEl = $(`${targetId}-name`);
+
+      const syncName = () => {
+        if (!nameEl) return;
+        const file = input.files && input.files[0];
+        nameEl.textContent = file ? file.name : 'No file chosen';
+      };
+
+      btn.addEventListener('click', () => input.click());
+      input.addEventListener('change', syncName);
+      syncName();
+    });
   }
 
   function initPlant() {
@@ -456,8 +480,12 @@
     const btn = $('installBtn');
     if (!btn) return;
 
+    document.body.classList.toggle('installed-pwa', isStandalone());
+
     const syncButton = () => {
-      btn.hidden = isStandalone() || !state.installPrompt;
+      const standalone = isStandalone();
+      document.body.classList.toggle('installed-pwa', standalone);
+      btn.hidden = standalone || !state.installPrompt;
     };
 
     if (isStandalone()) {
@@ -510,6 +538,7 @@
     installPrompt();
     lockPortrait();
 
+    initFilePickers();
     initWeather();
     initPlant();
     initSoil();

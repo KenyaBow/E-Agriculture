@@ -54,6 +54,11 @@ input,select,textarea{width:100%;padding:14px 14px;border-radius:16px;border:1px
 input::placeholder,textarea::placeholder{color:#a9b8b0}
 input:focus,select:focus,textarea:focus{border-color:#ff929d;box-shadow:0 0 0 3px rgba(180,32,47,.18)}
 .button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.field-block{display:grid;gap:8px}
+.file-picker{display:grid;gap:8px}
+.file-btn{width:fit-content}
+.file-name{color:var(--muted);font-size:.92rem}
+body.installed-pwa #installBtn{display:none !important}
 .button-row.wrap{align-items:center}
 .meta-line,.placeholder{color:var(--muted)}
 .summary-box,.detail-box{margin-top:14px;padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
