@@ -12,6 +12,7 @@ from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
 
 import requests
+from urllib.parse import urlparse
 from flask import (Flask, Response, jsonify, render_template, request)
 
 APP_NAME = "FarmPulse"
@@ -1098,14 +1099,51 @@ def service_worker():
     return app.send_static_file("service-worker.js")
 
 
+
+def build_ping_ack(source: str = "pulse_receiver", payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    ack: Dict[str, Any] = {
+        "received": True,
+        "source": source,
+        "received_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        "app": APP_NAME,
+    }
+    if payload:
+        ack["payload"] = payload
+    return ack
+
+
+def forward_ping_ack(callback_url: str, ack: Dict[str, Any]) -> Dict[str, Any]:
+    parsed = urlparse(callback_url)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError("callback_url must be a valid http(s) URL")
+    resp = SESSION.post(callback_url, json=ack, timeout=DEFAULT_TIMEOUT)
+    return {"status_code": resp.status_code, "ok": resp.ok}
+
+
 @app.route("/health")
 def health():
     return "OK", 200
 
 
+@app.route("/api/ping", methods=["GET", "POST"])
 @app.route("/pulse_receiver", methods=["GET", "POST"])
 def pulse_receiver():
-    return jsonify({"status": "ok", "message": "pulse received"}), 200
+    payload: Dict[str, Any] = {}
+    if request.method == "POST":
+        payload = request.get_json(silent=True) or {}
+    else:
+        payload = {k: v for k, v in request.args.items()}
+    ack = build_ping_ack("pulse_receiver", payload)
+
+    callback_url = (payload.get("callback_url") or payload.get("reply_to") or request.args.get("callback_url") or request.args.get("reply_to") or "").strip()
+    if callback_url:
+        try:
+            ack["callback"] = forward_ping_ack(callback_url, ack)
+        except Exception as exc:
+            ack["callback_error"] = str(exc)
+
+    push_report("ping", ack)
+    return jsonify(ack), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False, use_reloader=False) 
