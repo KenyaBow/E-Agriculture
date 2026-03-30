@@ -16,9 +16,14 @@
     <label>Crop or leaf name
       <input id="plant-name" type="text" placeholder="Example: tomato or maize">
     </label>
-    <label>Leaf photo
-      <input id="plant-image" type="file" accept="image/*" capture="environment">
-    </label>
+    <div class="field-block">
+      <label for="plant-image">Leaf photo</label>
+      <div class="file-picker">
+        <input id="plant-image" type="file" accept="image/*">
+        <button class="ghost-btn file-btn" type="button" data-file-target="plant-image">Choose image</button>
+        <small class="file-name" id="plant-image-name">No file chosen</small>
+      </div>
+    </div>
   </div>
   <div class="button-row">
     <button class="primary-btn" id="plant-analyze" type="button">Analyze leaf</button>

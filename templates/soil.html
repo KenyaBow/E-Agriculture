@@ -19,12 +19,22 @@
     <label>Location
       <input id="soil-location" type="text" value="Nairobi, Kenya">
     </label>
-    <label>Soil photo
-      <input id="soil-image" type="file" accept="image/*" capture="environment">
-    </label>
-    <label>Leaf photo (optional)
-      <input id="soil-leaf-image" type="file" accept="image/*" capture="environment">
-    </label>
+    <div class="field-block">
+      <label for="soil-image">Soil photo</label>
+      <div class="file-picker">
+        <input id="soil-image" type="file" accept="image/*">
+        <button class="ghost-btn file-btn" type="button" data-file-target="soil-image">Choose image</button>
+        <small class="file-name" id="soil-image-name">No file chosen</small>
+      </div>
+    </div>
+    <div class="field-block">
+      <label for="soil-leaf-image">Leaf photo (optional)</label>
+      <div class="file-picker">
+        <input id="soil-leaf-image" type="file" accept="image/*">
+        <button class="ghost-btn file-btn" type="button" data-file-target="soil-leaf-image">Choose image</button>
+        <small class="file-name" id="soil-leaf-image-name">No file chosen</small>
+      </div>
+    </div>
   </div>
   <div class="button-row">
     <button class="primary-btn" id="soil-analyze" type="button">Analyze soil</button>
