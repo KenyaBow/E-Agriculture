@@ -33,6 +33,29 @@
     return String(value);
   }
 
+  function isStandalone() {
+    return window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator.standalone === true;
+  }
+
+  function downloadBlob(url, filename) {
+    return fetch(url, { credentials: 'same-origin' })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text().catch(() => '');
+          throw new Error(text || `Request failed (${res.status})`);
+        }
+        const blob = await res.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+      });
+  }
+
   async function api(url, options = {}) {
     const method = (options.method || 'GET').toUpperCase();
     const key = `fp-cache:${url}:${method}`;
@@ -253,6 +276,8 @@
   async function initReport() {
     const list = $('report-list');
     const refresh = $('refresh-report');
+    const csv = $('download-report-csv');
+    const jsonBtn = $('download-report-json');
     if (!list) return;
     async function load() {
       list.innerHTML = '<p class="placeholder">Loading report...</p>';
@@ -275,6 +300,20 @@
       }
     }
     refresh?.addEventListener('click', load);
+    csv?.addEventListener('click', async () => {
+      try {
+        await downloadBlob('/api/report/download?format=csv', 'farmpulse-report.csv');
+      } catch (err) {
+        toast(err.message, 'bad');
+      }
+    });
+    jsonBtn?.addEventListener('click', async () => {
+      try {
+        await downloadBlob('/api/report/download?format=json', 'farmpulse-report.json');
+      } catch (err) {
+        toast(err.message, 'bad');
+      }
+    });
     load();
   }
 
@@ -416,18 +455,39 @@
   function installPrompt() {
     const btn = $('installBtn');
     if (!btn) return;
+
+    const syncButton = () => {
+      btn.hidden = isStandalone() || !state.installPrompt;
+    };
+
+    if (isStandalone()) {
+      btn.hidden = true;
+      return;
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       state.installPrompt = e;
-      btn.hidden = false;
+      syncButton();
     });
+
+    window.addEventListener('appinstalled', () => {
+      state.installPrompt = null;
+      btn.hidden = true;
+      toast('FarmPulse installed.', 'good');
+    });
+
+    window.matchMedia?.('(display-mode: standalone)')?.addEventListener?.('change', syncButton);
+
     btn.addEventListener('click', async () => {
       if (!state.installPrompt) return;
       state.installPrompt.prompt();
       await state.installPrompt.userChoice.catch(() => {});
-      btn.hidden = true;
       state.installPrompt = null;
+      syncButton();
     });
+
+    syncButton();
   }
 
   function lockPortrait() {

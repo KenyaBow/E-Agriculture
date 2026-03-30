@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'farmpulse-v4';
+const CACHE_NAME = 'farmpulse-v5';
 const ASSETS = [
   '/', '/weather', '/plant', '/soil', '/chat', '/report', '/irrigation', '/diseases', '/recommendations', '/market',
   '/static/style.css', '/static/app.js', '/manifest.json', '/static/img/logo.png', '/static/img/logo-192.png', '/static/img/logo-512.png', '/service-worker.js'
@@ -18,6 +18,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
+
+  const url = new URL(req.url);
+  const isApi = url.pathname.startsWith('/api/');
+  const isDownload = url.pathname === '/api/report/download';
+
+  if (isApi || isDownload) {
+    event.respondWith(fetch(req));
+    return;
+  }
+
   event.respondWith(
     fetch(req)
       .then((res) => {
