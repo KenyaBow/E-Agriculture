@@ -1100,8 +1100,7 @@ def service_worker():
 
 @app.route("/health")
 def health():
-    return "OK"
-
+    return "OK", 200
 
 
 @app.route("/pulse_receiver", methods=["GET", "POST"])
