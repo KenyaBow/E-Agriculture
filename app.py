@@ -1100,7 +1100,7 @@ def service_worker():
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok", "app": APP_NAME})
+    return "OK"
 
 
 if __name__ == "__main__":
