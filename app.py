@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from PIL import Image
 import csv
 import io
 import json
@@ -1101,7 +1101,14 @@ def service_worker():
 @app.route("/health")
 def health():
     return "OK"
+@app.route("/health")
+def health():
+    return "OK", 200
 
+
+@app.route("/pulse_receiver", methods=["GET", "POST"])
+def pulse_receiver():
+    return jsonify({"status": "ok", "message": "pulse received"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False, use_reloader=False)
